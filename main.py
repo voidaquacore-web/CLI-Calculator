@@ -1,4 +1,4 @@
-print("---------- Calculator ----------")
+print("---------- Calculator -----------")
 
 def operation(operand, num1, num2):
     if operand == "+":
@@ -6,22 +6,53 @@ def operation(operand, num1, num2):
     elif operand == "-":
         return num1 - num2
     elif operand == "/":
+        if num2 == 0:
+            return "cannot divide by zero"
         return num1 / num2
     elif operand == "*":
         return num1 * num2
-    else:
-        return "wrong operand"
     
-num1 = int(input("Enter first num: "))
-num2 = int(input("Enter second num: "))
-operand = input("which operation? (+,-,*,/): ")
+def get_number(msg):
+    while True:
+        try:
+          num = int(input(msg))
+          break
+        except ValueError:
+            print("invalid number, try again")
+    return num
 
-result = operation(operand, num1, num2)
+def get_operand():
+    while True:
+       operand = input("which operation? (+,-,*,/): ")
+       if operand in ["+","-","/","*"]:
+           break
+       else:
+           print("invaild operator (-,+,/,* only)")
+    return operand
 
-if result == int:
-    print(f"{num1} {operand} {num2} = {result}")
-else:
-    print(result)
+
+while True:
+    
+    num1 = get_number("Enter first number: ")
+    num2 = get_number("Enter second number: ")
+    
+    operand = get_operand()
+
+    result = operation(operand, num1, num2)    
+            
+
+    if isinstance(result, int) or isinstance(result, float):
+        print(f"{num1} {operand} {num2} = {result}")
+    else:
+        print(result)
+    
+    exit = input("Do you want to exit? (y/n) : ")
+    if exit.lower() == "y":
+        print("sayonara")
+        break
+    
+        
+
 
     
   
