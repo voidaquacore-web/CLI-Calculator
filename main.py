@@ -1,3 +1,5 @@
+import os
+
 print("---------- Calculator -----------")
 
 def operation(operand, num1, num2):
@@ -30,12 +32,18 @@ def get_operand():
            print("invaild operator (-,+,/,* only)")
     return operand
 
-history = []
-
 while True:
     choice = input(" choose: [h] -> history | [e] -> exit | [c] -> to calculate: ")
     
     if choice.lower() == "e":
+        save = input("save history? [y] -> yes | [n] -> no: ").lower() == "y"
+
+        if not save:
+            try:
+                os.remove("history.txt")
+            except FileNotFoundError:
+                pass
+        
         print("sayonara")
         break
     
@@ -48,27 +56,26 @@ while True:
 
         result = operation(operand, num1, num2)    
                 
-        history.append((num1,operand, num2, result))
+        with open("history.txt" , "a") as file:
+            file.write(f"{num1} {operand} {num2} = {result}" + "\n")
 
-        if isinstance(result, int) or isinstance(result, float):
-            print("")
-            print(f"{num1} {operand} {num2} = {result}")
-            print("")
-        else:
-            print(result)
+        
+        print("")
+        print(f"{num1} {operand} {num2} = {result}")
+        print("")
+      
     
     elif choice.lower() == "h":
-        i = 1
-        if not history:
-            print("No calculations performed yet.")
+        if os.path.exists("history.txt"):
+            i = 1
+            print("==== history ====")
+            with open("history.txt" , "r") as f:
+                for line in f:
+                    print(f"{i}. {line}")
+                    i += 1
         else:
-            print("History ->")
-            for calc in history:
-                a, op, b , result = calc
-                print(f"{i}. {a} {op} {b} = {result}")
-                i += 1
-            print('')
-    else:
+            print("no calculations have been performed.")
+    else:           
         print("invalid input, Try again!")
  
         
