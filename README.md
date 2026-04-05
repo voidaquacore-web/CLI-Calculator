@@ -1,4 +1,4 @@
-CLI Calculator
+CLI Calculator (v1.0)
 
 A simple command-line calculator built in Python.
 
